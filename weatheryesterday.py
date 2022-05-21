@@ -36,6 +36,9 @@ Weather in {city}, {country} yesterday:
 
 
 yesterday = str(datetime.date.today() - datetime.timedelta(days=1)).split("-")
+weekago = str(datetime.date.today() - datetime.timedelta(days=7)).split("-")
+monthago = str(datetime.date.today() - datetime.timedelta(days=30)).split("-")
+yearago = str(datetime.date.today() - datetime.timedelta(days=365)).split("-")
 
 root = Tk()
 root.title("WeatherYesterday")
