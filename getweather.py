@@ -1,47 +1,61 @@
 from datetime import datetime
 import matplotlib.pyplot as plt
 from meteostat import Point, Daily, Stations
+from geopy.geocoders import Nominatim
+import warnings
 
-def avgtemp(day, month, year, city = "Vancouver"):
+warnings.filterwarnings("ignore")
+
+geolocator = Nominatim(user_agent="weatheryesterday")
+
+def avgtemp(day, month, year, country, city):
     start = datetime(year, month, day)
     end = datetime(year, month, day)
 
-    vancouver = Point(49.2497, -123.1193, 70)
+    loc = geolocator.geocode(city+','+ country)
 
-    data = Daily(vancouver, start, end)
+    citypoint = Point(loc.latitude, loc.longitude)
+
+    data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
 
     return data[0][0]
 
-def avgprecip(day, month, year, city = "Vancouver"):
+def avgprecip(day, month, year, country, city):
     start = datetime(year, month, day)
     end = datetime(year, month, day)
 
-    vancouver = Point(49.2497, -123.1193, 70)
+    loc = geolocator.geocode(city+','+ country)
 
-    data = Daily(vancouver, start, end)
+    citypoint = Point(loc.latitude, loc.longitude)
+
+    data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
 
     return data[0][3]
 
-def mintemp(day, month, year, city = "Vancouver"):
+def mintemp(day, month, year, country, city):
     start = datetime(year, month, day)
     end = datetime(year, month, day)
 
-    vancouver = Point(49.2497, -123.1193, 70)
+    loc = geolocator.geocode(city+','+ country)
 
-    data = Daily(vancouver, start, end)
+    citypoint = Point(loc.latitude, loc.longitude)
+
+    data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
 
     return data[0][1]
 
-def maxtemp(day, month, year, city = "Vancouver"):
+def maxtemp(day, month, year, country, city):
     start = datetime(year, month, day)
     end = datetime(year, month, day)
 
-    vancouver = Point(49.2497, -123.1193, 70)
+    loc = geolocator.geocode(city+','+ country)
 
-    data = Daily(vancouver, start, end)
+    citypoint = Point(loc.latitude, loc.longitude)
+
+    data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
 
     return data[0][2]
