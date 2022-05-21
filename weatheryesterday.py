@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from . import getweather
+import getweather
 import datetime
 
 
