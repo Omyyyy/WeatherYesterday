@@ -14,6 +14,9 @@ def avgtemp(day, month, year, country, city):
 
     loc = geolocator.geocode(city+','+ country)
 
+    if loc is None:
+        return
+
     citypoint = Point(loc.latitude, loc.longitude)
 
     data = Daily(citypoint, start, end)
@@ -26,6 +29,9 @@ def avgprecip(day, month, year, country, city):
     end = datetime(year, month, day)
 
     loc = geolocator.geocode(city+','+ country)
+
+    if loc is None:
+        return 
 
     citypoint = Point(loc.latitude, loc.longitude)
 
@@ -40,10 +46,10 @@ def mintemp(day, month, year, country, city):
 
     loc = geolocator.geocode(city+','+ country)
 
-    citypoint = Point(loc.latitude, loc.longitude)
+    if loc is None:
+        return 
 
-    if citypoint is None:
-        return
+    citypoint = Point(loc.latitude, loc.longitude)
 
     data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
@@ -55,6 +61,9 @@ def maxtemp(day, month, year, country, city):
     end = datetime(year, month, day)
 
     loc = geolocator.geocode(city+','+ country)
+
+    if loc is None:
+        return
 
     citypoint = Point(loc.latitude, loc.longitude)
 
