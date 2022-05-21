@@ -42,6 +42,9 @@ def mintemp(day, month, year, country, city):
 
     citypoint = Point(loc.latitude, loc.longitude)
 
+    if citypoint is None:
+        return
+
     data = Daily(citypoint, start, end)
     data = data.fetch().values.tolist()
 
