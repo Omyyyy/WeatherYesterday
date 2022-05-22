@@ -1,6 +1,5 @@
 from datetime import datetime
-import matplotlib.pyplot as plt
-from meteostat import Point, Daily, Stations
+from meteostat import Point, Daily
 from geopy.geocoders import Nominatim
 import warnings
 
