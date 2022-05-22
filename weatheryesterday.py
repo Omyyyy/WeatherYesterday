@@ -1,10 +1,11 @@
 from tkinter import Text, END
-import customtkinter
+from customtkinter import CTk, CTkLabel, CTkEntry, CTkButton, set_appearance_mode, set_default_color_theme
 import getweather
 import datetime 
+import platform
 
-customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+set_appearance_mode("System")
+set_default_color_theme("blue")
 
 def fahr(celc):
     fahr = celc * 1.8 + 32
@@ -49,25 +50,29 @@ weekago = str(datetime.date.today() - datetime.timedelta(days=7)).split("-")
 monthago = str(datetime.date.today() - datetime.timedelta(days=30)).split("-")
 yearago = str(datetime.date.today() - datetime.timedelta(days=365)).split("-")
 
-root = customtkinter.CTk()
+root = CTk()
 root.title("WeatherYesterday")
-root.geometry("1920x1080")
+if platform.system() == "Windows":
+    root.geometry("1920x800")
+
+else:
+    root.geometry("1920x1080")
 root.resizable(width=False, height=False)
 
-city_label = customtkinter.CTkLabel(master=root, text="City: ", text_font=("Arial", 20))
-country_label = customtkinter.CTkLabel(master=root, text="Country: ", text_font=("Arial", 20))
+city_label = CTkLabel(master=root, text="City: ", text_font=("Arial", 20))
+country_label = CTkLabel(master=root, text="Country: ", text_font=("Arial", 20))
 city_label.place(x=657, y=13)
 country_label.place(x=630, y=72)
 
-city_entry = customtkinter.CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
+city_entry = CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
 city_entry.focus_set()
 city_entry.pack(padx=10, pady=10)
 
-country_entry = customtkinter.CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
+country_entry = CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
 country_entry.focus_set()
 country_entry.pack(padx=10, pady=10)
 
-customtkinter.CTkButton(master=root, text= "Go" ,width= 100, height=30, text_font=("Arial", 13), command=insertdata).pack(pady=20)
+CTkButton(master=root, text= "Go" ,width= 100, height=30, text_font=("Arial", 13), command=insertdata).pack(pady=20)
 
 T = Text(master=root, state = "disabled", height=1200, width=800, font=("Nunito Sans", 22))
 T.pack()
