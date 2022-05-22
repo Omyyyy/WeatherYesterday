@@ -1,7 +1,10 @@
-from tkinter import *
-from tkinter import ttk
+from tkinter import Text, END
+import customtkinter
 import getweather
 import datetime 
+
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
 def fahr(celc):
     fahr = celc * 1.8 + 32
@@ -17,25 +20,26 @@ def insertdata():
     avgprecip = getweather.avgprecip(day, month, year, country, city)
     mintemp = getweather.mintemp(day, month, year, country, city)
     maxtemp = getweather.maxtemp(day, month, year, country, city)
+    avgwspd = getweather.avgwspd(day, month, year, country, city)
+    maxwspd = getweather.peakwspd(day, month, year, country, city)
 
-    if avgtemp is None or avgprecip is None or mintemp is None or maxtemp is None:
+    if avgtemp is None or avgprecip is None or mintemp is None or maxtemp is None or avgwspd is None or maxwspd is None:
         T.configure(state='normal')
+        T.tag_config('warning', foreground="red")
         T.delete(1.0, END)
-        T.insert(END, "City not found")
+        T.insert(END, "\nCity not found", 'warning')
 
     else:
         T.configure(state='normal')
         T.delete(1.0, END)
         T.insert(END, f"""
-Weather in {city}, {country} yesterday:    
+ Weather in {city}, {country} yesterday:    
 
-    Average temperature on {day}/{month}/{year}: {avgtemp}°C / {fahr(avgtemp)}°F
+ Average temperature on {day}/{month}/{year}: {avgtemp}°C / {fahr(avgtemp)}°F                 Average precipitation on {day}/{month}/{year}: {avgprecip}mm
 
-    Average precipitation on {day}/{month}/{year}: {avgprecip}mm
+ Minimum temperature on {day}/{month}/{year}: {mintemp}°C / {fahr(mintemp)}°F                Maximum temperature on {day}/{month}/{year}: {maxtemp}°C / {fahr(maxtemp)}°F
 
-    Minimum temperature on {day}/{month}/{year}: {mintemp}°C / {fahr(mintemp)}°F
-
-    Maximum temperature on {day}/{month}/{year}: {maxtemp}°C / {fahr(maxtemp)}°F
+ Average wind speed on {day}/{month}/{year}: {avgwspd}m/s                                    Maximum wind speed on {day}/{month}/{year}: {maxwspd}m/s
 """)
 
     T.configure(state='disabled')
@@ -45,21 +49,27 @@ weekago = str(datetime.date.today() - datetime.timedelta(days=7)).split("-")
 monthago = str(datetime.date.today() - datetime.timedelta(days=30)).split("-")
 yearago = str(datetime.date.today() - datetime.timedelta(days=365)).split("-")
 
-root = Tk()
+root = customtkinter.CTk()
 root.title("WeatherYesterday")
-root.geometry("1200x800")
+root.geometry("1920x1080")
+root.resizable(width=False, height=False)
 
-city_entry = Entry(root, width= 60, font=("Arial", 20))
+city_label = customtkinter.CTkLabel(master=root, text="City: ", text_font=("Arial", 20))
+country_label = customtkinter.CTkLabel(master=root, text="Country: ", text_font=("Arial", 20))
+city_label.place(x=657, y=13)
+country_label.place(x=630, y=72)
+
+city_entry = customtkinter.CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
 city_entry.focus_set()
 city_entry.pack(padx=10, pady=10)
 
-country_entry = Entry(root, width= 60, font=("Arial", 20))
+country_entry = customtkinter.CTkEntry(master=root, width= 350, height= 40, text_font= ("Arial", 20))
 country_entry.focus_set()
 country_entry.pack(padx=10, pady=10)
 
-ttk.Button(root, text= "Go" ,width= 30, command=insertdata).pack(pady=20)
+customtkinter.CTkButton(master=root, text= "Go" ,width= 100, height=30, text_font=("Arial", 13), command=insertdata).pack(pady=20)
 
-T = Text(root, state = "disabled", height=1200, width=800, font=("Arial", 20))
+T = Text(master=root, state = "disabled", height=1200, width=800, font=("Nunito Sans", 22))
 T.pack()
 
 root.mainloop()
