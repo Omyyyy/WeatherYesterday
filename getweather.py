@@ -2,6 +2,8 @@ from datetime import datetime
 from meteostat import Point, Daily
 from geopy.geocoders import Nominatim
 import warnings
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 warnings.filterwarnings("ignore")
 
